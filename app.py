@@ -188,10 +188,11 @@ def create_channel_metrics(df_marketing):
     metrics_display['spend'] = metrics_display['spend'].map('${:,.0f}'.format)
     metrics_display['attributed_revenue'] = metrics_display['attributed_revenue'].map('${:,.0f}'.format)
     
-    st.dataframe(metrics_display.rename(columns={
+    metrics_display = metrics_display.rename(columns={
         'tactic':'Channel','spend':'Total Spend','attributed_revenue':'Attributed Revenue',
         'clicks':'Total Clicks','impression':'Impressions','ctr':'CTR','cpc':'CPC','roas':'ROAS'
-    }), hide_index=True)
+    })
+    st.write(metrics_display.style.hide().to_html(), unsafe_allow_html=True)
 
 def create_trend_analysis(kpis):
     st.header("📈 Performance Trends")
@@ -294,7 +295,7 @@ def create_channel_comparison(df_filtered):
                 'ROAS': channel_perf['roas'].map('{:.2f}'.format),
                 'CTR': channel_perf['ctr'].map('{:.2%}'.format)
             })
-            st.dataframe(metrics_table, hide_index=True)
+            st.write(metrics_table.style.hide().to_html(), unsafe_allow_html=True)
         else:
             st.warning("No data available for the selected filters")
     
